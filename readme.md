@@ -1,9 +1,13 @@
 # Rekap MTQ bot
 
 Bot Telegram untuk membantu rekap otomatis aktivitas tahfizh tahsin MTQ Online (www.tahfizhonline.com)
+Silahkan menggunakan source code ini untuk menjalankan bot yg serupa untuk kepentingan non komersial
+
+[![License: CC BY-NC 4.0](https://licensebuttons.net/l/by-nc/4.0/80x15.png)](https://creativecommons.org/licenses/by-nc/4.0/)
 
 ### Gambaran Umum
-Ini adalah aplikasi bot yang dibuat dg bahasa pemrograman Java
+Ini adalah aplikasi bot yang dibuat dg bahasa pemrograman Java dengan menggunakan library Java untuk telegram yang luar biasa oleh 
+[Ruben](https://github.com/rubenlagus/TelegramBots)
 
 RekapMTQbot menjalankan fungsi sbg berikut:
 
@@ -19,7 +23,7 @@ RekapMTQbot menjalankan fungsi sbg berikut:
 
 ### Mengapa Bot ini dibuat
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+Karena kelas yang ditangani makin buanyak :-D
 
 ## Konsep
 
@@ -34,7 +38,7 @@ Aktivitas terkait bot menyerupai yg dilakukan oleh admin di telegram, yakni:
 2. masukin santri ke kelas
 3. ngeluarin santri dari kelas
 
-ada dua kategori grup yg diperlukan:
+Ada dua kategori grup yg diperlukan:
 
 1. grup khusus admin
 ini adl grup tempat admin menjalankan perintah ke-adminan. 
@@ -102,7 +106,34 @@ Kirim rekap setoran untuk kelas yg ditunjuk tanpa menunggu trigger (trigger norm
 Kirim rekap MRJ utk kelas yg ditunjuk tanpa tunggu trigger (trigger normal 09.00 WIB).
 
 
-###Command oleh Santri###
+### Manajemen Santri ###
+
+```
+.addsatuan (nama_slot) (username_santri)
+```
+Memasukkan satu orang santri ke dalam slot okupansi kelas ybs. Contoh format slot okupansi = 05B-1-01.
+
+```
+.addall (nama_kelas) (daftar nama 10 user)
+```
+Memasukkan 10 username secara bersamaan ke dalam kelas. Daftar nama 10 user dipisah dg koma tanpa spasi. Jika jumlah yg dimasukkan < 10, maka gunakan tanda tanya "?" utk slot yg kosong.
+
+```
+.remove (username_santri)
+```
+Menghapus santri dari monitoring, semisal krn masuk takhasus atau di-DO.
+
+```
+.setghoib (username_santri)
+```
+Mengeset nilai bilangan ghoib santri ybs
+
+```
+.setudzur (username_santri)
+```
+Mengeset nilai bilangan udzur santri ybs
+
+### Command oleh Santri ###
 
 Command oleh santri selalu terdiri dari tiga huruf dan diawali dg titik (.) atau slash (/)
 
@@ -139,9 +170,14 @@ Ijin berhalangan karena sakit
 ```
 Ijin berhalangan - udzur selain sakit
 
-## API Reference
+## Catatan
 
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
+Di setiap dibutuhkan input berupa nama kelas, perhatikan bahwa jumlah digit nama kelas selalu ada 4 (empat).
+
+Misal 02Bi, 05Ai, 12Ba, dst
+'02' = dua digit awal adl nama kelas; di mana angka < 10 selalu diawali dg angka nol.
+'B' = kategori kelas, A atau B. Bisa ditulis besar atau kecil; tapi baiknya dibiasakan huruf kecil 
+'i/a' = ikhwan atau akhowat
 
 ## Running the tests
 
@@ -169,27 +205,32 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* Dropwizard - Bla bla bla
-* Maven - Maybe
-* Atom - ergaerga
+* Java SKD 1.8
+* Telegram Bot Java Library (https://github.com/rubenlagus/TelegramBots)
+* Maven
+* Telegram API 3.3
+* SQLite (production)
+* MySQL (deployment)
+* Hibernate
+* Joda Time 2.9.9
+* Emoji Java 3.1.0
+
 
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ## Authors
 
-* **John Doe** - *Initial work* - [JohnDoe](https://github.com/JohnDoe)
+* **Akhmad Guntar** - *Initial work* - [guntarion](https://github.com/guntarion)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+Yang mana bot ini merupakan kerja bareng dengan pengurus kesekretariatan MTQ Online @ArdynataMTQ @zakkiy @GunturPerwiraNegara @Abu_Asadulloh di bawah arahan mudir MTQ @abuazamMTQ
 
 ## License
 
-This project is licensed under the **BSD License** - see the [LICENSE.md](LICENSE.md) file for details.
+This RekapMTQbot project is licensed under the **GNU GPL v3**
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Acknowledgments
 
