@@ -1,12 +1,17 @@
-package com.tahfizhonline.entity;
+package com.tahfizhonline.entitydefinition;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class TesJDBC {
-    String jdbcUrl = "jdbc:sqlite:mtqdb.db";
-    String user = "";
-    String pass = "";
+//    String jdbcUrl = "jdbc:sqlite:mtqdb.db";
+//    String user = "";
+//    String pass = "";
+
+
+    String jdbcUrl = "jdbc:mysql://localhost:3306/RekapMTQBot?useSSL=false";
+    String user = "guntar";
+    String pass = "guntar";
 
     public TesJDBC() {
         try {

@@ -4,14 +4,19 @@ package com.tahfizhonline.fungsidukung;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
+import org.joda.time.LocalTime;
 import org.joda.time.chrono.IslamicChronology;
+import sun.util.calendar.BaseCalendar;
+import sun.util.calendar.CalendarDate;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.chrono.HijrahChronology;
 import java.time.chrono.HijrahDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 public class OperasiTanggal {
@@ -60,7 +65,56 @@ public class OperasiTanggal {
     public String getTodayDate() {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd");
         LocalDate localDate = LocalDate.now();
-        return dateTimeFormatter.format(localDate);
+        return dateTimeFormatter.format(localDate).toString();
+    }
+
+    public String[] getYesterdayDate() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE,-1);
+
+        DateFormat dateFormat_day = new SimpleDateFormat("dd");
+        String date_yesterday = dateFormat_day.format(cal.getTime());
+        DateFormat dateFormat_month = new SimpleDateFormat("MM");
+        String month_yesterday = dateFormat_month.format(cal.getTime());
+        DateFormat dateFormat_year = new SimpleDateFormat("YYYY");
+        String year_yesterday = dateFormat_year.format(cal.getTime());
+
+        String[] tanggalnya = {date_yesterday, month_yesterday, year_yesterday};
+        return tanggalnya;
+    }
+
+    public String[] getAweekAgoDate() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE,-8);
+
+        DateFormat dateFormat_day = new SimpleDateFormat("dd");
+        String date_week_ago = dateFormat_day.format(cal.getTime());
+        DateFormat dateFormat_month = new SimpleDateFormat("MM");
+        String month_week_ago = dateFormat_month.format(cal.getTime());
+        DateFormat dateFormat_year = new SimpleDateFormat("YYYY");
+        String year_week_ago = dateFormat_year.format(cal.getTime());
+
+        String[] tanggalnya = {date_week_ago, month_week_ago, year_week_ago};
+        return tanggalnya;
+    }
+
+
+    public String getPresentMonth() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM");
+        LocalDate localDate = LocalDate.now();
+        return dateTimeFormatter.format(localDate).toString();
+    }
+
+    public String getPresentYear() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("YY");
+        LocalDate localDate = LocalDate.now();
+        return dateTimeFormatter.format(localDate).toString();
+    }
+
+    public String getCurrentTime() {
+        LocalTime time = new LocalTime();
+        String formatted = time.toString("HH:mm");
+        return formatted.toString();
     }
 
     public String getDayOfWeek() {
@@ -92,15 +146,15 @@ public class OperasiTanggal {
         String hijriYear = arrElemenTanggalHijriah[0];
 
         String namaBulanIslam = "";
-        if (hijriMonth.equals("1")) namaBulanIslam = "Muharram";
-        else if (hijriMonth.equals("2")) namaBulanIslam = "Safar";
-        else if (hijriMonth.equals("3")) namaBulanIslam = "Rabiul awal";
-        else if (hijriMonth.equals("4")) namaBulanIslam = "Rabiul akhir";
-        else if (hijriMonth.equals("5")) namaBulanIslam = "Jumadil awal";
-        else if (hijriMonth.equals("6")) namaBulanIslam = "Jumadil akhir";
-        else if (hijriMonth.equals("7")) namaBulanIslam = "Rajab";
-        else if (hijriMonth.equals("8")) namaBulanIslam = "Sya'ban";
-        else if (hijriMonth.equals("9")) namaBulanIslam = "Ramadhan";
+        if (hijriMonth.equals("01")) namaBulanIslam = "Muharram";
+        else if (hijriMonth.equals("02")) namaBulanIslam = "Safar";
+        else if (hijriMonth.equals("03")) namaBulanIslam = "Rabiul awal";
+        else if (hijriMonth.equals("04")) namaBulanIslam = "Rabiul akhir";
+        else if (hijriMonth.equals("05")) namaBulanIslam = "Jumadil awal";
+        else if (hijriMonth.equals("06")) namaBulanIslam = "Jumadil akhir";
+        else if (hijriMonth.equals("07")) namaBulanIslam = "Rajab";
+        else if (hijriMonth.equals("08")) namaBulanIslam = "Sya'ban";
+        else if (hijriMonth.equals("09")) namaBulanIslam = "Ramadhan";
         else if (hijriMonth.equals("10")) namaBulanIslam = "Syawal";
         else if (hijriMonth.equals("11")) namaBulanIslam = "Dzulkaidah";
         else if (hijriMonth.equals("12")) namaBulanIslam = "Dzulhijjah";

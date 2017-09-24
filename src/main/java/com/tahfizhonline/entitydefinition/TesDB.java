@@ -1,4 +1,4 @@
-package com.tahfizhonline.entity;
+package com.tahfizhonline.entitydefinition;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,11 +18,14 @@ public class TesDB {
     public static final String COLUMN_NAMA = "nama";
     public static final String COLUMN_USERNAME = "username";
 
+
+
+
     public void tesDatabase() {
         // create session factory
         SessionFactory factory = new Configuration()
                 .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(SantriReguler.class)
+                .addAnnotatedClass(EntitySantriReguler.class)
                 .buildSessionFactory();
 
         // create session
@@ -31,7 +34,7 @@ public class TesDB {
         try {
             // create a student object
             System.out.println("Creating new student object...");
-            SantriReguler tempStudent = new SantriReguler(353, "Amanda", "@amanda");
+            EntitySantriReguler tempStudent = new EntitySantriReguler();
 
             // start a transaction
             session.beginTransaction();
@@ -77,11 +80,11 @@ public class TesDB {
 
     private static void cobaUpdateSantri(Statement statement, int id, String nama) throws SQLException {
         statement.execute("UPDATE " + TABLE_SANTRI +
-                " SET " + COLUMN_NAMA + "='" + nama + "' WHERE id_santri="+ id);
+                " SET " + COLUMN_NAMA + "='" + nama + "' WHERE id_db_santri="+ id);
     }
 
     private static void cobaDeleteSantri(Statement statement, int id) throws SQLException {
-        statement.execute("DELETE FROM " + TABLE_SANTRI + " WHERE id_santri="+ id);
+        statement.execute("DELETE FROM " + TABLE_SANTRI + " WHERE id_db_santri="+ id);
     }
 
 

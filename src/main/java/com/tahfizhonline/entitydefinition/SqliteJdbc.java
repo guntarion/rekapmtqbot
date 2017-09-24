@@ -1,6 +1,5 @@
-package com.tahfizhonline.entity;
+package com.tahfizhonline.entitydefinition;
 
-import com.sun.xml.internal.fastinfoset.sax.Properties;
 import com.tahfizhonline.MTQBotRekap;
 import com.tahfizhonline.fungsidukung.OperasiTanggal;
 import org.apache.log4j.Logger;
@@ -15,6 +14,7 @@ import java.util.List;
 public class SqliteJdbc {
 
     final static Logger logger = Logger.getLogger(SqliteJdbc.class);
+    private static org.apache.log4j.Logger log = Logger.getLogger(MTQBotRekap.class);
 
 //    final Properties p = new Properties(); p.setProperty("journal_mode", "WAL"); DriverManager.getConnection("jdbc:sqlite:file.db", p);
 
@@ -287,12 +287,13 @@ public class SqliteJdbc {
             statement.execute("UPDATE okupansikelas SET p_no_suroh=0 WHERE id_okupansi='" + id_okupansi + "'");
             statement.execute("UPDATE okupansikelas SET p_ayat_begin=0 WHERE id_okupansi='" + id_okupansi + "'");
             statement.execute("UPDATE okupansikelas SET p_ayat_end=0 WHERE id_okupansi='" + id_okupansi + "'");
-            statement.execute("UPDATE okupansikelas SET mrjap_suroh_begin=0 WHERE id_okupansi='" + id_okupansi + "'");
-            statement.execute("UPDATE okupansikelas SET mrjap_suroh_end=0 WHERE id_okupansi='" + id_okupansi + "'");
-            statement.execute("UPDATE okupansikelas SET mrjap_ayat_begin=0 WHERE id_okupansi='" + id_okupansi + "'");
-            statement.execute("UPDATE okupansikelas SET mrjap_ayat_end=0 WHERE id_okupansi='" + id_okupansi + "'");
+            statement.execute("UPDATE okupansikelas SET mrjap_suroh_begin=114 WHERE id_okupansi='" + id_okupansi + "'");
+            statement.execute("UPDATE okupansikelas SET mrjap_suroh_end=114 WHERE id_okupansi='" + id_okupansi + "'");
+            statement.execute("UPDATE okupansikelas SET mrjap_ayat_begin=1 WHERE id_okupansi='" + id_okupansi + "'");
+            statement.execute("UPDATE okupansikelas SET mrjap_ayat_end=1 WHERE id_okupansi='" + id_okupansi + "'");
             statement.execute("UPDATE okupansikelas SET mrjap_setor=0 WHERE id_okupansi='" + id_okupansi + "'");
             statement.execute("UPDATE okupansikelas SET mrjap_simak=0 WHERE id_okupansi='" + id_okupansi + "'");
+            statement.execute("UPDATE okupansikelas SET is_wajib_mrjharian=0 WHERE id_okupansi='" + id_okupansi + "'");
 
             statement.close();
             conn.close();
@@ -420,8 +421,16 @@ public class SqliteJdbc {
             Connection conn = DriverManager.getConnection(CONNECTION_STRING);
             Statement statement = conn.createStatement();
 
-            ResultSet qEksistingSetoran = statement.executeQuery("SELECT today_setoran FROM okupansikelas WHERE username='" + username + "'");
-//            System.out.println(qEksistingSetoran.getInt("today_setoran"));
+            ResultSet qEksistingSetoran = statement.executeQuery("SELECT today_setoran, username FROM okupansikelas WHERE username='" + username + "'");
+            if (qEksistingSetoran.next()) {
+                boolean found = qEksistingSetoran.getBoolean("username");
+                if (found) {
+
+                } else {
+
+                }
+            }
+            //            System.out.println(qEksistingSetoran.getInt("today_setoran"));
             berapaKaliSetorToday = qEksistingSetoran.getInt("today_setoran");
             berapaKaliSetorToday++;
             qEksistingSetoran.close();
@@ -432,6 +441,12 @@ public class SqliteJdbc {
             statement.execute("UPDATE okupansikelas SET p_no_suroh=" + noSuroh + " WHERE username='" + username + "'");
             statement.execute("UPDATE okupansikelas SET p_ayat_begin=" + awalAyat + " WHERE username='" + username + "'");
             statement.execute("UPDATE okupansikelas SET p_ayat_end=" + akhirAyat + " WHERE username='" + username + "'");
+            statement.execute("UPDATE okupansikelas SET mrjap_suroh_end=" + noSuroh + " WHERE username='" + username + "'");
+            statement.execute("UPDATE okupansikelas SET mrjap_ayat_end=" + akhirAyat + " WHERE username='" + username + "'");
+
+            if (noSuroh==77) {
+                statement.execute("UPDATE okupansikelas SET is_wajib_mrjharian=1 WHERE username='" + username + "'");
+            }
 
             statement.close();
             conn.close();
@@ -623,7 +638,7 @@ public class SqliteJdbc {
 
             try {
                 // Cari dulu mana-mana kelas yang perlu dibikinin rekap
-                ResultSet qStatusOn = statement.executeQuery("SELECT nama_kelas, status, id_kelas, alamat FROM infokelas WHERE status=1");
+                ResultSet qStatusOn = statement.executeQuery("SELECT nama_kelas, status, id_db_kelas, alamat FROM infokelas WHERE status=1");
                 while (qStatusOn.next()) {
                     daftarKelas.add(qStatusOn.getString(1));
                     alamatKelas.add(qStatusOn.getString("alamat"));
@@ -661,7 +676,7 @@ public class SqliteJdbc {
                 sbUdzurGhoib.setLength(0);
 
                 sb.append("\n================================\n");
-                sb.append(EmojiParser.parseToUnicode(":mecca: MTQ-Ma'had Tahfidzh Qur'an \n"));
+                sb.append(EmojiParser.parseToUnicode(":mecca: MTQ-Ma'had Tahfizh Qur'an \n"));
                 sb.append(EmojiParser.parseToUnicode(":dhikr_beads: Rekap Setoran Hafizh MTQ " + stringDaftarKelas[i])); sb.append("\n");
                 sb.append(EmojiParser.parseToUnicode(":spiral_calendar_pad: ") +  operasiTanggal.getTanggalPelaporan());
                 sb.append("================================\n");
@@ -797,7 +812,7 @@ public class SqliteJdbc {
 
 
         sb.append("\n================================\n");
-        sb.append(EmojiParser.parseToUnicode(":mecca: MTQ-Ma'had Tahfidzh Qur'an \n"));
+        sb.append(EmojiParser.parseToUnicode(":mecca: MTQ-Ma'had Tahfizh Qur'an \n"));
         sb.append(EmojiParser.parseToUnicode(":dhikr_beads: Rekap Setoran Hafizh MTQ " + namaKelas)); sb.append("\n");
         sb.append(EmojiParser.parseToUnicode(":spiral_calendar_pad: ") +  operasiTanggal.getTanggalPelaporan());
         sb.append("================================\n");
@@ -968,7 +983,7 @@ public class SqliteJdbc {
         List<String> santriKelas = new ArrayList<String>();
 
         sb.append("\n================================\n");
-        sb.append(EmojiParser.parseToUnicode(":star_crescent: MTQ-Ma'had Tahfidzh Qur'an \n"));
+        sb.append(EmojiParser.parseToUnicode(":star_crescent: MTQ-Ma'had Tahfizh Qur'an \n"));
         sb.append(EmojiParser.parseToUnicode(":m: Rekap Muroja'ah Hafizh MTQ " + namaKelas)); sb.append("\n");
         sb.append(EmojiParser.parseToUnicode(":spiral_calendar_pad: ") +  operasiTanggal.getTanggalPelaporan());
         sb.append("================================\n");
@@ -984,7 +999,7 @@ public class SqliteJdbc {
 
             // cari slot okupansi yg tertandai sebagai terisi=1 | yakni yg orangnya memang ada dan aktif
             santriKelas.clear();
-            ResultSet qOkupansi = statement.executeQuery("SELECT * FROM okupansikelas WHERE terisi=1 AND kelas='" + namaKelas + "'");
+            ResultSet qOkupansi = statement.executeQuery("SELECT * FROM okupansikelas WHERE terisi=1 AND is_wajib_mrjharian=1 AND kelas='" + namaKelas + "'");
 
             while (qOkupansi.next()) {
                 santriKelas.add(qOkupansi.getString("id_okupansi"));
@@ -1041,6 +1056,67 @@ public class SqliteJdbc {
         } catch (SQLException e) { System.out.println(e.getMessage()); logger.error(e.getMessage()); }
     }
 
+    public void generateListMRJakhirPekan(String namaKelas) {
+        MTQBotRekap telegramBot = new MTQBotRekap();
+        String userNameSantri = "";
+        String report = "";
+        String alamatKelas = "";
+        List<String> santriKelas = new ArrayList<String>();
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n================================\n");
+        sb.append(EmojiParser.parseToUnicode(":earth_asia: MTQ-Ma'had Tahfizh Qur'an \n"));
+        sb.append(EmojiParser.parseToUnicode(":m: Setoran Pekan Terakhir " + namaKelas)); sb.append("\n");
+        sb.append("================================\n");
+
+        try {
+            Connection conn = DriverManager.getConnection(CONNECTION_STRING);
+            Statement statement = conn.createStatement();
+
+            ResultSet qCariAlamatKelas = statement.executeQuery("SELECT * FROM infokelas WHERE nama_kelas='"
+                    + namaKelas + "'");
+            alamatKelas = qCariAlamatKelas.getString("alamat");
+
+
+            // cari slot okupansi yg tertandai sebagai terisi=1 | yakni yg orangnya memang ada dan aktif
+            santriKelas.clear();
+            ResultSet qOkupansi = statement.executeQuery("SELECT * FROM okupansikelas WHERE terisi=1 AND kelas='" + namaKelas + "'");
+
+            while (qOkupansi.next()) {
+                santriKelas.add(qOkupansi.getString("id_okupansi"));
+                userNameSantri = qOkupansi.getString("username");
+            }
+
+            qOkupansi.close(); qCariAlamatKelas.close();
+            System.out.println(santriKelas);
+
+            // iterate per santri dalam kelas ybs berdasarkan data yg diambil di atas (list santriKelas)
+            // Bagian yang ini utk mencatat info setoran tiap santri
+            String[] stringDaftarSantri = santriKelas.toArray(new String[0]);
+            int sizeOfSantriArray = stringDaftarSantri.length;
+            for (int a = 0; a < sizeOfSantriArray; a++) {
+                System.out.println("Santri antara lain [" + a + "] = " + stringDaftarSantri[a]);
+
+                ResultSet qSantri = statement.executeQuery("SELECT * FROM okupansikelas WHERE id_okupansi='" + stringDaftarSantri[a] + "'");
+                sb.append(qSantri.getString("nama_santri") + " ");
+                sb.append(qSantri.getInt("mrjap_suroh_begin") + ":");
+                sb.append(qSantri.getInt("mrjap_ayat_begin") + " - ");
+                sb.append(qSantri.getInt("mrjap_suroh_end") + ":");
+                sb.append(qSantri.getInt("mrjap_ayat_end") + "\n");
+
+                qSantri.close();
+
+            } // ending iterate tiap santri
+            statement.close(); conn.close();
+
+            sb.append("================================\n");
+            report = sb.toString();
+            System.out.println(report);
+
+            telegramBot.kirimReport(report, alamatKelas);
+
+        } catch (SQLException e) { System.out.println(e.getMessage()); logger.error(e.getMessage()); }
+
+    }
 
     public void generateReportMRJakhirPekanPerKelas(String namaKelas) {
 
@@ -1051,17 +1127,86 @@ public class SqliteJdbc {
         String simbolSetoran = "";
         String simbolSimak = "";
         System.out.println("\nMemproses untuk = " + namaKelas);
-        sb.setLength(0);
         String userNameSantri = "";
         String alamatKelas = "";
+
 
         List<String> santriKelas = new ArrayList<String>();
 
         sb.append("\n================================\n");
-        sb.append(EmojiParser.parseToUnicode(":star_crescent: MTQ-Ma'had Tahfidzh Qur'an \n"));
-        sb.append(EmojiParser.parseToUnicode(":m: Rekap Muroja'ah Hafizh MTQ " + namaKelas)); sb.append("\n");
-        sb.append(EmojiParser.parseToUnicode(":spiral_calendar_pad: ") +  operasiTanggal.getTanggalPelaporan());
+        sb.append(EmojiParser.parseToUnicode(":id: MTQ-Ma'had Tahfizh Qur'an \n"));
+        sb.append(EmojiParser.parseToUnicode(":m: Rekap MRJ Pekanan Hafizh MTQ " + namaKelas)); sb.append("\n");
         sb.append("================================\n");
+
+        try {
+            Connection conn = DriverManager.getConnection(CONNECTION_STRING);
+            Statement statement = conn.createStatement();
+
+            ResultSet qCariAlamatKelas = statement.executeQuery("SELECT * FROM infokelas WHERE nama_kelas='"
+                    + namaKelas + "'");
+            alamatKelas = qCariAlamatKelas.getString("alamat");
+
+
+            // cari slot okupansi yg tertandai sebagai terisi=1 | yakni yg orangnya memang ada dan aktif
+            santriKelas.clear();
+            ResultSet qOkupansi = statement.executeQuery("SELECT * FROM okupansikelas WHERE terisi=1 AND kelas='" + namaKelas + "'");
+
+            while (qOkupansi.next()) {
+                santriKelas.add(qOkupansi.getString("id_okupansi"));
+                userNameSantri = qOkupansi.getString("username");
+            }
+
+            qOkupansi.close(); qCariAlamatKelas.close();
+            System.out.println(santriKelas);
+
+            // iterate per santri dalam kelas ybs berdasarkan data yg diambil di atas (list santriKelas)
+            // Bagian yang ini utk mencatat info setoran tiap santri
+            String[] stringDaftarSantri = santriKelas.toArray(new String[0]);
+            int sizeOfSantriArray = stringDaftarSantri.length;
+            for (int a = 0; a < sizeOfSantriArray; a++) {
+                int MRJapSetor = 0;
+                int MRJapSimak = 0;
+                String namaSantri = "";
+                System.out.println("Santri antara lain [" + a + "] = " + stringDaftarSantri[a]);
+
+                ResultSet qSantri = statement.executeQuery("SELECT * FROM okupansikelas WHERE id_okupansi='" + stringDaftarSantri[a] + "'");
+                namaSantri = qSantri.getString("nama_santri");
+                MRJapSetor = qSantri.getInt("mrjap_setor");
+                MRJapSimak = qSantri.getInt("mrjap_simak");
+                qSantri.close();
+
+                if (MRJapSetor==0) {
+                    simbolSetoran = EmojiParser.parseToUnicode( ":no_entry:");
+                    setGhoibPoinSeparuh(userNameSantri);
+                } else if (MRJapSetor==10) {
+                    simbolSetoran = EmojiParser.parseToUnicode( ":sos:");
+                } else {
+                    simbolSetoran = EmojiParser.parseToUnicode( ":ballot_box_with_check:");
+                }
+
+                if (MRJapSimak==0) {
+                    simbolSimak = EmojiParser.parseToUnicode( ":no_entry_sign:");
+                    setGhoibPoinSeparuh(userNameSantri);
+                } else if (MRJapSimak==10) {
+                    simbolSimak = EmojiParser.parseToUnicode( ":sos:");
+                } else {
+                    simbolSimak = EmojiParser.parseToUnicode( ":ballot_box_with_check:");
+                }
+
+                sb.append(simbolSetoran + " ");
+                sb.append(simbolSimak + " ");
+                sb.append(namaSantri + " \n");
+
+            } // ending iterate tiap santri
+            statement.close(); conn.close();
+
+            sb.append("================================\n");
+            report = sb.toString();
+            System.out.println(report);
+
+            telegramBot.kirimReport(report, alamatKelas);
+
+        } catch (SQLException e) { System.out.println(e.getMessage()); logger.error(e.getMessage()); }
 
     }
 

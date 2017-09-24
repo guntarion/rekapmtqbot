@@ -18,7 +18,7 @@ public class RekapScheduler {
                 .newTrigger()
                 .withIdentity("rekapSetoranRutinTrigger", "rekapanRutin")
                 .withSchedule(
-                        CronScheduleBuilder.cronSchedule("0 59 23 ? * MON-FRI"))
+                        CronScheduleBuilder.cronSchedule("0 59 23 ? * MON-SAT"))
                 .build();
         try {
             //schedule it

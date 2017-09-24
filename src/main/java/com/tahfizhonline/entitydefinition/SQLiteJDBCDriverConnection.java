@@ -1,4 +1,4 @@
-package com.tahfizhonline.entity;
+package com.tahfizhonline.entitydefinition;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
