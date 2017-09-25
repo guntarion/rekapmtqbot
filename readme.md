@@ -23,7 +23,7 @@ RekapMTQbot menjalankan fungsi sbg berikut:
 
 ### Mengapa Bot ini dibuat
 
-Karena kelas yang ditangani makin buanyak :-D
+Karena kelas yang ditangani makin buanyak dan tenaga admin terbatas 😆
 
 ## Konsep
 
@@ -135,7 +135,13 @@ Mengeset nilai bilangan udzur santri ybs
 
 ### Command oleh Santri ###
 
-Command oleh santri selalu terdiri dari tiga huruf dan diawali dg titik (.) atau slash (/)
+Command oleh santri selalu terdiri dari tiga huruf dan diawali dg titik (.)
+
+```
+.ana (namaPanggilan/kunyah), (setoran suroh dan ayat terakhir),(no HP), gender),(tahun kelahiran)
+```
+Mendaftarkan diri di database bot. Kalau nggak ndaftar, maka setoran tidak digubris oleh bot. Antar informasi dipisah dg tanda koma. Untuk gender, i = ikhwan, a = akhowat
+contoh: `.ana Abu Qayyim,78:1,0813923422,i,1983`
 
 ```
 .new (info)
@@ -158,7 +164,7 @@ Kirim setoran murojaah. Info adl nomer halaman.
 ```
 .sim
 ```
-Simak setoran MRJ pasangan. Bot tidak peduli dia menyimak punya siapa.
+Simak setoran MRJ pasangan. Bot tidak peduli yang disimak setoran siapa.
 
 ```
 .skt 
@@ -166,9 +172,9 @@ Simak setoran MRJ pasangan. Bot tidak peduli dia menyimak punya siapa.
 Ijin berhalangan karena sakit
 
 ```
-.udz
+.udz (info)
 ```
-Ijin berhalangan - udzur selain sakit
+Ijin berhalangan - udzur selain sakit. Disertai dg keterangan, di mana info ini akan diteruskan ke grup kesekretariatan MTQ.
 
 ## Catatan
 
@@ -179,29 +185,14 @@ Misal 02Bi, 05Ai, 12Ba, dst
 'B' = kategori kelas, A atau B. Bisa ditulis besar atau kecil; tapi baiknya dibiasakan huruf kecil 
 'i/a' = ikhwan atau akhowat
 
-## Running the tests
+## Fitur dan Policy
 
-Explain how to run the automated tests for this system
+Berikut adalah fungsionalitas dan kebijakan dari sistem:
+* Yang bisa kirim perintah admin ya hanya admin aja
+* Perintah yg jadi santapan santri tidak bisa dikirim via chat pribadi dg bot
+* Bila santri belum terdaftar, maka setoran tidak dihiraukan
+* Untuk mendaftar di database bot, santri harus punya username terlebih dahulu
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
@@ -214,11 +205,7 @@ Add additional notes about how to deploy this on a live system
 * Hibernate
 * Joda Time 2.9.9
 * Emoji Java 3.1.0
-
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+* JUnit 4 with Hamcrest
 
 
 ## Authors
@@ -231,9 +218,3 @@ Yang mana bot ini merupakan kerja bareng dengan pengurus kesekretariatan MTQ Onl
 
 This RekapMTQbot project is licensed under the **GNU GPL v3**
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-
-## Acknowledgments
-
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
