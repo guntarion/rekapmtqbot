@@ -234,7 +234,7 @@ Ijin berhalangan karena sakit
 ```
 Ijin berhalangan - udzur selain sakit. Disertai dg keterangan, di mana info ini akan diteruskan ke grup kesekretariatan MTQ.
 
-### Command oleh Santri ###
+### Command oleh Musyrif ###
 
 Koreksian dari musyrif akan masuk secara otomatis dalam rekap harian. Sbgmn normalnya koreksian, perintah-perintah ini dilakukan dg mereply pesan audio dari santri. Bisa juga dg mereply pesan setoran si santri, yakni pesan yg berisikan `.new ...` atau `.rev ...`
 
